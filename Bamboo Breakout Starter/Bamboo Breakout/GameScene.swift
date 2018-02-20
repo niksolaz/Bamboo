@@ -32,7 +32,9 @@ let GameMessageName = "gameMessage"
 
 
 class GameScene: SKScene {
-  
+    
+  var isFingerOnPaddle = false
+    
   override func didMove(to view: SKView) {
     super.didMove(to: view)
     //Created un edge-based
@@ -48,6 +50,38 @@ class GameScene: SKScene {
     let ball = childNode(withName: BallCategoryName) as! SKSpriteNode
     ball.physicsBody!.applyImpulse(CGVector(dx: 2.0, dy: -2.0))
   }
-  
+    //Methods touch handling
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touch = touches.first
+        let touchLocation = touch!.location(in: self)
+        
+        if let body = physicsWorld.body(at: touchLocation) {
+            if body.node?.name == PaddleCategoryName {
+                print("Began touch on paddle")
+                isFingerOnPaddle = true
+            }
+        }
+    }
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        // Check whether the player is touching the paddle
+        if isFingerOnPaddle {
+            // Get the touch location and previous touch location
+            let touch = touches.first
+            let touchLocation = touch!.location(in: self)
+            let previousLocation = touch!.previousLocation(in: self)
+            // SKSpriteNode for the paddle
+            let paddle = childNode(withName: PaddleCategoryName) as! SKSpriteNode
+            // Current position
+            var paddleX = paddle.position.x + (touchLocation.x - previousLocation.x)
+            // Repositioning the paddle .. limit the position
+            paddleX = max(paddleX, paddle.size.width/2)
+            paddleX = min(paddleX, size.width - paddle.size.width/2)
+            // Set the position
+            paddle.position = CGPoint(x: paddleX, y: paddle.position.y)
+        }
+    }
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        isFingerOnPaddle = false
+    }
   
 }
