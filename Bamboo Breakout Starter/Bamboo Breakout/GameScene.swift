@@ -35,7 +35,12 @@ class GameScene: SKScene {
   
   override func didMove(to view: SKView) {
     super.didMove(to: view)
-    
+    //Created un edge-based
+    let borderBody = SKPhysicsBody(edgeLoopFrom: self.frame)
+    //Set friction
+    borderBody.friction = 0
+    //Set physic body for every node
+    self.physicsBody = borderBody
   }
   
   
