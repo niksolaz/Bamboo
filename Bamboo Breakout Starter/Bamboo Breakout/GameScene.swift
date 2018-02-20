@@ -41,6 +41,12 @@ class GameScene: SKScene {
     borderBody.friction = 0
     //Set physic body for every node
     self.physicsBody = borderBody
+    
+    //Bouncing ball
+    physicsWorld.gravity = CGVector(dx: 0.0, dy: 0.0)
+    
+    let ball = childNode(withName: BallCategoryName) as! SKSpriteNode
+    ball.physicsBody!.applyImpulse(CGVector(dx: 2.0, dy: -2.0))
   }
   
   
