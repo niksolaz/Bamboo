@@ -72,6 +72,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     borderBody.categoryBitMask = BorderCategory
     
     ball.physicsBody!.contactTestBitMask = BottomCategory
+    //Bamboo blocks
+    //Some useful constants like the number of blocks you want and their width
+    let numberOfBlocks = 8
+    let blockWidth = SKSpriteNode(imageNamed: "block").size.width
+    let totalBlocksWidth = blockWidth * CGFloat(numberOfBlocks)
+    //distance between the left border of the screen and the first block
+    let xOffset = (frame.width - totalBlocksWidth) / 2
+    //Create the blocks
+    for i in 0..<numberOfBlocks{
+        let block = SKSpriteNode(imageNamed: "block.png")
+        block.position = CGPoint(x: xOffset + CGFloat(CGFloat(i) + 0.5) * blockWidth, y: frame.height * 0.8)
+        
+        block.physicsBody = SKPhysicsBody(rectangleOf: block.frame.size)
+        block.physicsBody!.allowsRotation = false
+        block.physicsBody!.friction = 0.0
+        block.physicsBody!.affectedByGravity = false
+        block.physicsBody!.isDynamic = false
+        block.name = BlockCategoryName
+        block.physicsBody!.categoryBitMask = BlockCategory
+        block.zPosition = 2
+        addChild(block)
+    }
   }
     //Methods touch handling
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
