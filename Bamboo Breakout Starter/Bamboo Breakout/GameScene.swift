@@ -147,6 +147,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if firstBody.categoryBitMask == BallCategory && secondBody.categoryBitMask == BottomCategory {
             print("Hit bottom. First contact has been made.")
         }
+        if firstBody.categoryBitMask == BallCategory && secondBody.categoryBitMask == BlockCategory {
+            breakBlock(node: secondBody.node!)
+            //TODO: check if the game has been won
+        }
+    }
+    //Break Blocks
+    func breakBlock(node:SKNode) {
+        let particles = SKEmitterNode(fileNamed: "BrokenPlatform")!
+        particles.position = node.position
+        particles.zPosition = 3
+        addChild(particles)
+        particles.run(SKAction.sequence([SKAction.wait(forDuration: 1.0),
+                                         SKAction.removeFromParent()]))
+        node.removeFromParent()
     }
   
 }
