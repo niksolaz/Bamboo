@@ -92,7 +92,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         block.name = BlockCategoryName
         block.physicsBody!.categoryBitMask = BlockCategory
         block.zPosition = 2
+        ball.physicsBody!.contactTestBitMask = BottomCategory | BlockCategory
         addChild(block)
+        
     }
   }
     //Methods touch handling
